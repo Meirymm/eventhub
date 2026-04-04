@@ -13,7 +13,7 @@ func NewEventRepository(db *sql.DB) *EventRepository {
 	return &EventRepository{db: db}
 }
 
-// Твоя первая функция: получить все ивенты из базы
+
 func (r *EventRepository) GetAll() ([]models.Event, error) {
 	query := `SELECT id, title, description, venue_id, category_id, start_time, created_at FROM events`
 
