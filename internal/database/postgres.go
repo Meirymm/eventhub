@@ -10,7 +10,7 @@ import (
 )
 
 func Connect(cfg *config.Config) *sql.DB {
-	// Код снова берет данные из конфига (из .env)
+	
 	dsn := fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName,
