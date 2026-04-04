@@ -69,6 +69,14 @@ func (s *AuthService) GetMe(userID int) (*models.User, error) {
     return s.repo.GetUserByID(userID)
 }
 
+func (s *AuthService) UpdateMe(userID int, req *models.UpdateUserRequest) (*models.User, error) {
+    err := s.repo.UpdateUser(userID, req)
+    if err != nil {
+        return nil, err
+    }
+    return s.repo.GetUserByID(userID)
+}
+
 func (s *AuthService) generateToken(user *models.User) (string, error) {
     claims := jwt.MapClaims{
         "user_id": user.ID,
@@ -78,4 +86,11 @@ func (s *AuthService) generateToken(user *models.User) (string, error) {
     }
     token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
     return token.SignedString([]byte(s.jwtSecret))
+}
+func (s *AuthService) GetAllUsers() ([]models.User, error) {
+    return s.repo.GetAllUsers()
+}
+
+func (s *AuthService) UpdateUserRole(userID int, role string) error {
+    return s.repo.UpdateUserRole(userID, role)
 }
