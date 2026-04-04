@@ -12,7 +12,7 @@ type Event struct {
 	CreatedAt   time.Time `json:"created_at"`
 }
 
-// Это пригодится тебе для создания ивентов через API
+
 type CreateEventRequest struct {
 	Title       string    `json:"title" binding:"required"`
 	Description string    `json:"description"`
