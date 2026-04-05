@@ -50,3 +50,22 @@ func (r *UserRepository) GetUserByID(id int) (*models.User, error) {
     }
     return user, nil
 }
+func (r *UserRepository) GetAllUsers() ([]models.User, error) {
+	query := `SELECT id, email, first_name, last_name, role, created_at FROM users`
+	rows, err := r.db.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var users []models.User
+	for rows.Next() {
+		var u models.User
+		err := rows.Scan(&u.ID, &u.Email, &u.FirstName, &u.LastName, &u.Role, &u.CreatedAt)
+		if err != nil {
+			return nil, err
+		}
+		users = append(users, u)
+	}
+	return users, nil
+}
