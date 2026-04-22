@@ -4,6 +4,7 @@ import (
     "database/sql"
     "fmt"
     "log"
+    "time"
     "eventhub/config"
     _ "github.com/lib/pq"
 )
@@ -17,9 +18,15 @@ func Connect(cfg *config.Config) *sql.DB {
     if err != nil {
         log.Fatal("Failed to connect to database:", err)
     }
+
+    // Connection pool — чтобы выдержать 1000 запросов
+    db.SetMaxOpenConns(25)
+    db.SetMaxIdleConns(10)
+    db.SetConnMaxLifetime(5 * time.Minute)
+
     if err = db.Ping(); err != nil {
         log.Fatal("Database is unreachable:", err)
     }
-    log.Println("Database connected successfully")
+    log.Println("✅ Database connected successfully")
     return db
 }

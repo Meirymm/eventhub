@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EventHub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <div class="nav-logo">Event<span>Hub</span></div>
+    <div class="nav-links" id="navLinks">
+      <a class="nav-link active" data-page="home">Главная</a>
+      <a class="nav-link" data-page="events">События</a>
+      <a class="nav-link" data-page="tickets" id="ticketsLink" style="display:none">Мои билеты</a>
+      <a class="nav-link admin-link" data-page="admin" style="display:none">Управление</a>
+    </div>
+    <div class="nav-right">
+      <div class="nav-auth" id="navAuth">
+        <button class="btn-nav-login" onclick="App.showPage('login')">Войти</button>
+        <button class="btn-nav-reg" onclick="App.showPage('register')">Регистрация</button>
+      </div>
+      <div class="nav-user-info hidden" id="navUserInfo">
+        <div class="nav-avatar" id="navAvatar">?</div>
+        <div class="nav-user-text">
+          <span class="nav-user-name" id="navUserName">—</span>
+          <span class="nav-user-role" id="navUserRole">user</span>
+        </div>
+        <button class="btn-nav-logout" onclick="App.doLogout()">Выйти</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <!-- HOME -->
+  <section class="page active" id="page-home">
+    <div class="hero">
+      <div class="hero-orbs">
+        <div class="orb orb1"></div>
+        <div class="orb orb2"></div>
+        <div class="orb orb3"></div>
+      </div>
+      <div class="hero-content">
+        <div class="hero-tag animate" style="--d:0s">🚀 Платформа для событий</div>
+        <h1 class="animate" style="--d:.1s">Организуй события.<br><span>Продавай билеты.</span></h1>
+        <p class="animate" style="--d:.2s">EventHub — удобная платформа для организаторов и участников мероприятий. Регистрируйся, создавай события и покупай билеты.</p>
+        <div class="hero-actions animate" style="--d:.3s">
+          <button class="btn-primary-lg" onclick="App.showPage('register')">Начать бесплатно</button>
+          <button class="btn-outline-lg" onclick="App.showPage('events')">Смотреть события →</button>
+        </div>
+      </div>
+      <div class="hero-card-wrap animate" style="--d:.2s">
+        <div class="hero-event-card">
+          <div class="hec-img">🎵</div>
+          <div class="hec-body">
+            <div class="hec-tag">Концерт</div>
+            <div class="hec-title">Летний фестиваль 2026</div>
+            <div class="hec-meta">📍 Алматы Арена · 15 июня</div>
+            <div class="hec-footer">
+              <span class="hec-price">Бесплатно</span>
+              <button class="hec-btn">Купить билет</button>
+            </div>
+          </div>
+        </div>
+        <div class="hero-ticket-card">
+          <div class="htc-left">
+            <div class="htc-title">Твой билет</div>
+            <div class="htc-event">Летний фестиваль 2026</div>
+            <div class="htc-id">TICKET #1042</div>
+          </div>
+          <div class="htc-qr">
+            <div class="qr-dots"></div>
+            <div class="htc-valid">✓ Активен</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="features">
+      <div class="feat animate">
+        <div class="feat-icon">🎯</div>
+        <h3>Для организаторов</h3>
+        <p>Создавай события, управляй площадками и следи за продажами билетов в реальном времени</p>
+      </div>
+      <div class="feat animate" style="--d:.1s">
+        <div class="feat-icon">🎫</div>
+        <h3>Для участников</h3>
+        <p>Находи интересные события, покупай билеты и получай QR-код для входа</p>
+      </div>
+      <div class="feat animate" style="--d:.2s">
+        <div class="feat-icon">🔐</div>
+        <h3>Безопасно</h3>
+        <p>JWT аутентификация, роли и права доступа, безопасное хранение данных</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOGIN -->
+  <section class="page" id="page-login">
+    <div class="auth-wrap">
+      <div class="auth-box">
+        <div class="auth-header">
+          <h2>Вход в EventHub</h2>
+          <p>Введи email и пароль чтобы войти</p>
+        </div>
+        <div id="login-alert" class="alert hidden"></div>
+        <div class="field"><label>Email</label><input type="email" id="login-email" placeholder="you@example.com" class="inp"></div>
+        <div class="field"><label>Пароль</label><input type="password" id="login-pass" placeholder="••••••••" class="inp"></div>
+        <button class="btn-primary-full" id="loginBtn" onclick="App.doLogin()">Войти</button>
+        <div class="auth-switch">Нет аккаунта? <a onclick="App.showPage('register')">Зарегистрироваться</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REGISTER -->
+  <section class="page" id="page-register">
+    <div class="auth-wrap">
+      <div class="auth-box">
+        <div class="auth-header">
+          <h2>Регистрация</h2>
+          <p>Создай аккаунт — это бесплатно</p>
+        </div>
+        <div id="reg-alert" class="alert hidden"></div>
+        <div class="field-row">
+          <div class="field"><label>Имя</label><input type="text" id="reg-fname" placeholder="Айгерим" class="inp"></div>
+          <div class="field"><label>Фамилия</label><input type="text" id="reg-lname" placeholder="Сат" class="inp"></div>
+        </div>
+        <div class="field"><label>Email</label><input type="email" id="reg-email" placeholder="you@example.com" class="inp"></div>
+        <div class="field"><label>Пароль</label><input type="password" id="reg-pass" placeholder="минимум 6 символов" class="inp"></div>
+        <button class="btn-primary-full" id="regBtn" onclick="App.doRegister()">Создать аккаунт</button>
+        <div class="auth-switch">Уже есть аккаунт? <a onclick="App.showPage('login')">Войти</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVENTS -->
+  <section class="page" id="page-events">
+    <div class="page-wrap">
+      <div class="page-top">
+        <div>
+          <h1 class="page-title">События</h1>
+          <p class="page-sub" id="eventsCount">Загрузка...</p>
+        </div>
+        <button class="btn-create hidden" id="createEventBtn" onclick="App.toggleCreateForm()">+ Создать событие</button>
+      </div>
+
+      <div class="create-form-box hidden" id="createFormBox">
+        <h3>Новое событие</h3>
+        <div id="create-event-alert" class="alert hidden"></div>
+        <div class="field-row">
+          <div class="field"><label>Название</label><input type="text" id="ev-title" placeholder="Название события" class="inp"></div>
+          <div class="field"><label>Venue ID</label><input type="number" id="ev-venue" value="1" class="inp"></div>
+        </div>
+        <div class="field"><label>Описание</label><textarea id="ev-desc" placeholder="Описание события..." class="inp"></textarea></div>
+        <div class="field"><label>Дата и время</label><input type="datetime-local" id="ev-time" class="inp"></div>
+        <div class="form-btns">
+          <button class="btn-primary" onclick="App.doCreateEvent()">Создать</button>
+          <button class="btn-outline" onclick="App.toggleCreateForm()">Отмена</button>
+        </div>
+      </div>
+
+      <div id="events-alert" class="alert hidden"></div>
+      <div class="events-grid" id="events-grid">
+        <div class="loading-state">Загрузка событий...</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TICKETS -->
+  <section class="page" id="page-tickets">
+    <div class="page-wrap">
+      <div class="page-top">
+        <div><h1 class="page-title">Мои билеты</h1><p class="page-sub">Все твои бронирования</p></div>
+        <button class="btn-outline" onclick="App.loadMyTickets()">↻ Обновить</button>
+      </div>
+      <div id="tickets-container">
+        <div class="loading-state">Загрузка билетов...</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADMIN -->
+  <section class="page" id="page-admin">
+    <div class="page-wrap">
+      <div class="page-top">
+        <div><h1 class="page-title">Управление пользователями</h1><p class="page-sub" id="usersCount">—</p></div>
+        <button class="btn-outline" onclick="App.loadUsers()">↻ Обновить</button>
+      </div>
+      <div id="admin-container">
+        <div class="loading-state">Загрузка...</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- QR MODAL -->
+<div class="modal-overlay hidden" id="qrModal" onclick="App.closeQR()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="App.closeQR()">✕</button>
+    <h3 id="qrTitle">Твой билет</h3>
+    <div class="qr-wrap">
+      <img id="qrImg" src="" alt="QR Code">
+    </div>
+    <div class="qr-info" id="qrInfo"></div>
+    <p class="qr-hint">Покажи этот QR-код на входе</p>
+  </div>
+</div>
+
+<div class="toast hidden" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
