@@ -69,3 +69,16 @@ func (r *UserRepository) GetAllUsers() ([]models.User, error) {
 	}
 	return users, nil
 }
+func (r *UserRepository) UpdateUser(id int, req *models.UpdateUserRequest) error {
+    query := `UPDATE users SET first_name = $1, last_name = $2, email = $3 WHERE id = $4`
+    _, err := r.db.Exec(query, req.FirstName, req.LastName, req.Email, id)
+    return err
+}
+
+func (r *UserRepository) UpdateUserRole(userID int, role string) error {
+    _, err := r.db.Exec(
+        `UPDATE users SET role=$1 WHERE id=$2`,
+        role, userID,
+    )
+    return err
+}
