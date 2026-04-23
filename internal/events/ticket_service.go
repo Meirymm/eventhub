@@ -17,3 +17,6 @@ func (s *TicketService) BookTicket(req models.CreateTicketRequest) (*models.Tick
 func (s *TicketService) GetTicketsByUser(userID int) ([]models.Ticket, error) {
 	return s.repo.GetByUserID(userID)
 }
+func (s *TicketService) ValidateTicket(ticketID int) (*models.Ticket, error) {
+    return s.repo.GetByID(ticketID)
+}

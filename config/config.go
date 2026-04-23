@@ -14,7 +14,6 @@ type Config struct {
     DBName     string
     JWTSecret  string
 }
-
 func Load() *Config {
     err := godotenv.Load()
     if err != nil {

@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
 <nav id="navbar">
   <div class="nav-inner">
     <div class="nav-logo">Event<span>Hub</span></div>
@@ -37,8 +36,6 @@
 </nav>
 
 <main>
-
-  <!-- HOME -->
   <section class="page active" id="page-home">
     <div class="hero">
       <div class="hero-orbs">
@@ -100,8 +97,6 @@
       </div>
     </div>
   </section>
-
-  <!-- LOGIN -->
   <section class="page" id="page-login">
     <div class="auth-wrap">
       <div class="auth-box">
@@ -117,8 +112,6 @@
       </div>
     </div>
   </section>
-
-  <!-- REGISTER -->
   <section class="page" id="page-register">
     <div class="auth-wrap">
       <div class="auth-box">
@@ -138,8 +131,6 @@
       </div>
     </div>
   </section>
-
-  <!-- EVENTS -->
   <section class="page" id="page-events">
     <div class="page-wrap">
       <div class="page-top">
@@ -171,8 +162,6 @@
       </div>
     </div>
   </section>
-
-  <!-- TICKETS -->
   <section class="page" id="page-tickets">
     <div class="page-wrap">
       <div class="page-top">
@@ -184,8 +173,6 @@
       </div>
     </div>
   </section>
-
-  <!-- ADMIN -->
   <section class="page" id="page-admin">
     <div class="page-wrap">
       <div class="page-top">
@@ -199,8 +186,6 @@
   </section>
 
 </main>
-
-<!-- QR MODAL -->
 <div class="modal-overlay hidden" id="qrModal" onclick="App.closeQR()">
   <div class="modal-box" onclick="event.stopPropagation()">
     <button class="modal-close" onclick="App.closeQR()">✕</button>
@@ -212,9 +197,7 @@
     <p class="qr-hint">Покажи этот QR-код на входе</p>
   </div>
 </div>
-
 <div class="toast hidden" id="toast"></div>
-
 <script src="app.js"></script>
 </body>
 </html>

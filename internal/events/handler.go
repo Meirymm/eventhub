@@ -3,9 +3,7 @@ package events
 import (
 	"net/http"
 	"strconv"
-
 	"eventhub/internal/models"
-
 	"github.com/gin-gonic/gin"
 )
 

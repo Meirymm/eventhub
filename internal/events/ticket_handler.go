@@ -3,7 +3,7 @@ package events
 import (
 	"eventhub/internal/models"
 	"net/http"
-
+    "strconv"
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,7 +21,6 @@ func (h *TicketHandler) BookTicket(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	// Берём user_id из JWT (middleware ставит int)
 	req.UserID = c.GetInt("user_id")
 
 	ticket, err := h.service.BookTicket(req)
@@ -44,4 +43,28 @@ func (h *TicketHandler) GetMyTickets(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, tickets)
+}
+func (h *TicketHandler) ValidateQR(c *gin.Context) {
+    id, err := strconv.Atoi(c.Param("id"))
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid ticket id"})
+        return
+    }
+
+    ticket, err := h.service.ValidateTicket(id)
+    if err != nil {
+        c.JSON(http.StatusNotFound, gin.H{
+            "valid":   false,
+            "message": "ticket not found",
+        })
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{
+        "valid":    true,
+        "ticket":   ticket.ID,
+        "event_id": ticket.EventID,
+        "user_id":  ticket.UserID,
+        "message":  "ticket is valid",
+    })
 }

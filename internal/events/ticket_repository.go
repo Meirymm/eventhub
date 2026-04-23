@@ -31,7 +31,6 @@ func generateQR(ticketID, eventID, userID int) string {
 }
 
 func (r *TicketRepository) Create(req models.CreateTicketRequest) (*models.Ticket, error) {
-	// Сначала создаём билет без QR
 	query := `INSERT INTO tickets (event_id, user_id, created_at)
 	          VALUES ($1, $2, NOW())
 	          RETURNING id, event_id, user_id, created_at`
@@ -42,11 +41,9 @@ func (r *TicketRepository) Create(req models.CreateTicketRequest) (*models.Ticke
 		return nil, err
 	}
 
-	// Генерируем QR и обновляем запись
 	t.QRCode = generateQR(t.ID, t.EventID, t.UserID)
 	_, err = r.db.Exec(`UPDATE tickets SET qr_code = $1 WHERE id = $2`, t.QRCode, t.ID)
 	if err != nil {
-		// Не критично — билет уже создан
 		t.QRCode = ""
 	}
 

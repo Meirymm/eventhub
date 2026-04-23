@@ -1,11 +1,8 @@
 'use strict';
 const API = 'http://localhost:8080';
-
 const App = (() => {
   let token = localStorage.getItem('eh_token');
   let user  = JSON.parse(localStorage.getItem('eh_user') || 'null');
-
-  // ── NAVIGATION ──────────────────────────────────────
   function showPage(name) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
@@ -21,8 +18,6 @@ const App = (() => {
   document.querySelectorAll('.nav-link').forEach(l => {
     l.addEventListener('click', e => { e.preventDefault(); showPage(l.dataset.page); });
   });
-
-  // ── TOAST ───────────────────────────────────────────
   function toast(msg, type = 'success') {
     const t = document.getElementById('toast');
     t.textContent = type === 'success' ? '✓  ' + msg : '✕  ' + msg;
@@ -30,16 +25,12 @@ const App = (() => {
     clearTimeout(t._t);
     t._t = setTimeout(() => t.className = 'toast hidden', 3500);
   }
-
-  // ── ALERT ───────────────────────────────────────────
   function showAlert(id, msg, type) {
     const el = document.getElementById(id);
     if (!el) return;
     el.textContent = msg; el.className = 'alert ' + type;
     clearTimeout(el._t); el._t = setTimeout(() => el.className = 'alert hidden', 4500);
   }
-
-  // ── UPDATE NAV AFTER LOGIN ───────────────────────────
   function updateNav() {
     const authEl  = document.getElementById('navAuth');
     const userEl  = document.getElementById('navUserInfo');
@@ -64,8 +55,6 @@ const App = (() => {
       createBtn.classList.toggle('hidden', user.role !== 'organizer' && user.role !== 'admin');
     }
   }
-
-  // ── AUTH ────────────────────────────────────────────
   async function doLogin() {
     const btn   = document.getElementById('loginBtn');
     const email = document.getElementById('login-email').value;
@@ -121,8 +110,6 @@ const App = (() => {
     localStorage.removeItem('eh_token'); localStorage.removeItem('eh_user');
     updateNav(); toast('Вы вышли', 'error'); showPage('home');
   }
-
-  // ── EVENTS ──────────────────────────────────────────
   async function loadEvents() {
     const grid = document.getElementById('events-grid');
     const countEl = document.getElementById('eventsCount');
@@ -164,7 +151,6 @@ const App = (() => {
   function toggleCreateForm() {
     document.getElementById('createFormBox').classList.toggle('hidden');
   }
-
   async function doCreateEvent() {
     const body = {
       title:       document.getElementById('ev-title').value,
@@ -182,8 +168,6 @@ const App = (() => {
       showAlert('create-event-alert', '❌ Ошибка', 'error');
     }
   }
-
-  // ── TICKETS ─────────────────────────────────────────
   async function bookTicket(eventId, eventTitle) {
     if (!token) { toast('Войди чтобы купить билет', 'error'); showPage('login'); return; }
     try {
@@ -232,8 +216,6 @@ const App = (() => {
       cont.innerHTML = `<div class="empty-state"><div class="empty-icon">❌</div><p>Сервер недоступен</p></div>`;
     }
   }
-
-  // ── QR MODAL ────────────────────────────────────────
   function showQR(ticket, eventTitle) {
     document.getElementById('qrTitle').textContent = eventTitle || 'Твой билет';
     document.getElementById('qrInfo').textContent  = `Билет #${ticket.id} · Событие #${ticket.event_id}`;
@@ -241,8 +223,6 @@ const App = (() => {
     document.getElementById('qrModal').classList.remove('hidden');
   }
   function closeQR() { document.getElementById('qrModal').classList.add('hidden'); }
-
-  // ── ADMIN ───────────────────────────────────────────
   async function loadUsers() {
     const cont = document.getElementById('admin-container');
     const cnt  = document.getElementById('usersCount');
@@ -269,8 +249,6 @@ const App = (() => {
       cont.innerHTML = `<div class="empty-state"><div class="empty-icon">❌</div><p>Сервер недоступен</p></div>`;
     }
   }
-
-  // ── INIT ────────────────────────────────────────────
   updateNav();
   if (token) {
     fetch(API + '/me', { headers:{ Authorization:'Bearer ' + token } })

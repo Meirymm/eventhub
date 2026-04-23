@@ -18,8 +18,6 @@ func Connect(cfg *config.Config) *sql.DB {
     if err != nil {
         log.Fatal("Failed to connect to database:", err)
     }
-
-    // Connection pool — чтобы выдержать 1000 запросов
     db.SetMaxOpenConns(25)
     db.SetMaxIdleConns(10)
     db.SetConnMaxLifetime(5 * time.Minute)
